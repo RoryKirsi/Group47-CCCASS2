@@ -1,0 +1,3 @@
+- name: Execute the install script of couchdb cluster on masternode
+  become: yes
+  local_action: command sh shellscript/master-clusterscript.sh

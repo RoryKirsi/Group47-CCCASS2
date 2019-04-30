@@ -1,0 +1,89 @@
+- name: demo start couchdb container
+  hosts: demo
+  tags: 'couchdb'
+  vars_files:
+    - host_vars/dockercouchdb.yaml
+  gather_facts: yes
+
+  roles:
+    - role: masternode
+
+- name: demo2 start couchdb container
+  hosts: demo2
+  tags: 'couchdb'
+  vars_files:
+    - host_vars/dockercouchdb.yaml
+  gather_facts: yes
+
+  roles:
+    - role: slavenode1
+
+- name: demo3 start couchdb container
+  hosts: demo3
+  tags: 'couchdb'
+  vars_files:
+    - host_vars/dockercouchdb.yaml
+  gather_facts: yes
+
+  roles:
+    - role: slavenode2
+
+- name: demo4 start couchdb container
+  hosts: demo4
+  tags: 'couchdb'
+  vars_files:
+    - host_vars/dockercouchdb.yaml
+  gather_facts: yes
+
+  roles:
+    - role: slavenode3
+
+- name: masternode start cluster joining operation
+  hosts: demo
+  tags: 'cluster'
+  vars_files:
+    - host_vars/dockercouchdb.yaml
+  gather_facts: yes
+
+  roles:
+    - role: mastercluster
+
+- name: slavenode1 is joining to cluster
+  hosts: demo2
+  tags: 'cluster'
+  vars_files:
+    - host_vars/dockercouchdb.yaml
+  gather_facts: yes
+
+  roles:
+    - role: slave1cluster
+
+- name: slavenode2 is joining to cluster
+  hosts: demo3
+  tags: 'cluster'
+  vars_files:
+    - host_vars/dockercouchdb.yaml
+  gather_facts: yes
+
+  roles:
+    - role: slave2cluster
+
+- name: slavenode3 is joining to cluster
+  hosts: demo4
+  tags: 'cluster'
+  vars_files:
+    - host_vars/dockercouchdb.yaml
+  gather_facts: yes
+
+  roles:
+    - role: slave3cluster
+
+- name: masternode finish the joining operation
+  hosts: demo
+  tags: 'cluster'
+  vars_files:
+    - host_vars/dockercouchdb.yaml
+  gather_facts: yes
+
+  roles:
+    - role: masterfinishcluster

@@ -1,0 +1,3 @@
+- name: Execute the install script of couchdb cluster on slavenode 1
+  become: yes
+  local_action: command sh shellscript/slave1-clusterscript.sh
